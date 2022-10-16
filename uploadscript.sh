@@ -1,3 +1,3 @@
 upp() {
-  cp -r lib *.py /media/$USER/CIRCUITPY/
+  mpy-cross main.py && cp -r lib main.mpy code.py /media/$USER/CIRCUITPY/
 }
