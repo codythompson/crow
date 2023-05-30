@@ -11,6 +11,7 @@ pixels = neopixel.NeoPixel(board.NEOPIXEL, 1)
 pixels.brightness = 0.1
 
 mode = 0
+modeWasChanged = False
 
 # create a PWMOut object on the control pin.
 pwm = pwmio.PWMOut(board.A2, duty_cycle=0, frequency=50)
@@ -49,7 +50,9 @@ def getServo():
     else:
         return legServo
 
+
 # TODO split this out per servo - otherwise a mode switch will cause a jump to the previous servos position
+
 movingTo = 0.5
 current = 0.5
 speed = 0.02
@@ -68,12 +71,16 @@ def tickServo():
 
 cap_pin_start = 3
 def readTouches():
-  global cap_pin_start,mode,movingTo
+  global cap_pin_start,mode,modeWasChanged,movingTo
 
   if cap.is_touched(cap_pin_start) and cap.is_touched(cap_pin_start+4):
-    mode += 1
-    mode = mode % 2
+    if not modeWasChanged:
+        mode += 1
+        mode = mode % 2
+    modeWasChanged = True
     return
+  else:
+    modeWasChanged = False
 
   weight = 0.0
   touched_count = 0
