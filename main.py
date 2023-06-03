@@ -69,11 +69,13 @@ def tickServo():
     if activeServo.fraction == None or abs(activeServo.fraction - current) > 0.001:
         activeServo.fraction = 0.15 + (current * (0.60 - 0.15)) # 1.0 and 0.15 are the max and min for crow safe operation - not in var to save mem
 
+cap_mode_pin = 9
 cap_pin_start = 3
 def readTouches():
   global cap_pin_start,mode,modeWasChanged,movingTo
 
-  if cap.is_touched(cap_pin_start) and cap.is_touched(cap_pin_start+4):
+#   if cap.is_touched(cap_pin_start) and cap.is_touched(cap_pin_start+4):
+  if cap.is_touched(cap_mode_pin):
     if not modeWasChanged:
         mode += 1
         mode = mode % 2
